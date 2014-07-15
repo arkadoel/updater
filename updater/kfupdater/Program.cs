@@ -16,6 +16,7 @@ namespace kfupdater
         #region "Constantes"
         public static string DIR_CACHE = "";
         public static string ACTUAL_DIR = "";
+        public static string DIR_TMP = "";
         #endregion
 
         /// <summary>
@@ -79,6 +80,13 @@ namespace kfupdater
             {
                 Directory.CreateDirectory(DIR_CACHE);
             }
+
+            DIR_TMP = ACTUAL_DIR + @"\tmp";
+            if (Directory.Exists(DIR_TMP) == false)
+            {
+                Directory.CreateDirectory(DIR_TMP);
+            }
+
 
         }
     }

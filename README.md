@@ -1,4 +1,4 @@
-updater
+Kamifer updater
 =======
 
-Updater and installer for applications
+Gestor de paquetes simple con el objetivo de poder actualizar e instalar de forma facil y sencilla sin los inconvenientes de OneClick de Microsoft

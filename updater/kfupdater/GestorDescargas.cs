@@ -14,16 +14,15 @@ namespace kfupdater
         public Boolean Procesando = true;
         private ConsoleColor original = Console.ForegroundColor;
         private int linea;
-        
 
-        public GestorDescargas(Repositorio repo)
+
+
+        public string DescargarFuentes(Repositorio repo)
         {
             packageListUrl = repo.URL + "/packageList.xml";
             Repo = repo;
-        }
+        
 
-        public string iniciarDescarga()
-        {
             WebClient w = new WebClient();
             string destinyFile= Program.DIR_CACHE + @"\" + Repo.RepoName.Replace(" ", "") + "packageList.xml";
             Console.Write("Descargando de: " + Repo.RepoName + ".......");
@@ -47,13 +46,12 @@ namespace kfupdater
         void w_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             
-            EscribirProgresoConsola(e.ProgressPercentage);
+            EscribirProgresoConsola(e.ProgressPercentage, " Descargando fuentes: " + Repo.RepoName);
             System.Threading.Thread.Sleep(100);
             Procesando = true;
-        }
+        }        
 
-
-        public void EscribirProgresoConsola(int porcentaje)
+        public void EscribirProgresoConsola(int porcentaje, string mensaje)
         {
             linea++;
             if (linea >100)
@@ -62,9 +60,30 @@ namespace kfupdater
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("\r\n[" + porcentaje.ToString() + "%]");
                 Console.ForegroundColor = original;
-                Console.Write(" Descargando fuentes: " + Repo.RepoName);
+                Console.Write(mensaje);
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
             }
+        }
+
+        public void DescargarPaquete(string urlServidor, Paquete pkg)
+        {
+            WebClient w = new WebClient();
+            string destinyFile = Program.DIR_TMP + @"\" + pkg.FileName;
+            string fileToDownload = urlServidor + "/" + pkg.FileName;
+
+            w.DownloadFileAsync(new Uri(fileToDownload, UriKind.Absolute), destinyFile);
+            w.DownloadProgressChanged += (sender, e) =>
+            {
+                EscribirProgresoConsola(e.ProgressPercentage, " Descargando paquete: " + pkg.PackageName);
+                System.Threading.Thread.Sleep(100);
+                Procesando = true;
+            };
+            w.DownloadFileCompleted += (sender, e) =>
+            {
+                Console.ForegroundColor = original;
+                Console.WriteLine("\r\nDescarga terminada");
+                Procesando = false;
+            };
         }
 
         public class ConsoleSpinner

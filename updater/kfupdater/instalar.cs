@@ -53,40 +53,40 @@ namespace kfupdater
             List<Repositorio> repos = ges.ObtenerRepositorios();
             List<string> archivosPackageList = new List<string>();
 
-            foreach (var repo in repos)
+            for (int i = 0; i < repos.Count(); i++)
             {
-                GestorDescargas g = new GestorDescargas(repo);
+                var repo = repos[i];
+                GestorDescargas gestorDes = new GestorDescargas();
                 Console.SetBufferSize(80, 150);
-                archivosPackageList.Add( g.iniciarDescarga());
-                while (g.Procesando != false)
+                archivosPackageList.Add(gestorDes.DescargarFuentes(repo));
+                while (gestorDes.Procesando != false)
                 {
                     //esperar
                 }
 
-                
-            }
+                nombrePkg = nombrePkg.ToUpper().Replace(" ", "");
+                Boolean encontrado = false;
 
-             nombrePkg = nombrePkg.ToUpper().Replace(" ", "");
-             Boolean encontrado = false;
-
-            for (int i = 0; i < archivosPackageList.Count() && encontrado !=true; i++ )
-            {
-                string archivo = archivosPackageList[i];
-                GestionarXML g = new GestionarXML();
-                List<Paquete> paquetes = g.ListarPaquetes(archivo);
-
-                var resultado = from u in paquetes
-                                where u.PackageName.ToUpper().Replace(" ", "").Contains(nombrePkg)
-                                select u;
-
-                if (resultado != null)
+                for (int j = 0; j < archivosPackageList.Count() && encontrado != true; j++)
                 {
-                    //proceder a descargar
-                    Console.WriteLine("Paquete encontrado");
-                    encontrado = true;
+                    string archivo = archivosPackageList[j];
+                    GestionarXML g = new GestionarXML();
+                    List<Paquete> paquetes = g.ListarPaquetes(archivo);
+
+                    var resultado = from u in paquetes
+                                    where u.PackageName.ToUpper().Replace(" ", "").Contains(nombrePkg)
+                                    select u;
+
+                    if (resultado != null)
+                    {
+                        //proceder a descargar
+                        Console.WriteLine("Paquete encontrado se procede a descargarlo");
+
+                        gestorDes.DescargarPaquete(repo.URL, resultado.First());
+                        encontrado = true;
+                    }
                 }
             }
-
 
             
             
