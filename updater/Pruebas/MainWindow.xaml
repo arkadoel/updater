@@ -1,0 +1,16 @@
+﻿<Window x:Class="Pruebas.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid Background="Gainsboro">
+        <TextBox Name="txtUrl" Height="30" Width="300" Margin="10,10,207,279" BorderBrush="Black" BorderThickness="1" />
+        <Button Name="btnDescargar" Content="Descargar" Height="40" Width="100" Margin="315,10,102,269" />
+        <Button Name="btnComprimir" Content="Comprimir" Height="40" Width="100" Margin="10,82,407,197" Click="btnComprimir_Click" />
+        <ProgressBar Name="progreso" HorizontalAlignment="Left" Height="5" Margin="10,50,0,0" VerticalAlignment="Top" Width="290" Minimum="0" Maximum="101" Value="50" Foreground="#FF627AB9" Background="Transparent" BorderBrush="Transparent" >
+            <ProgressBar.Effect>
+                <DropShadowEffect  Direction="-90" ShadowDepth="1" BlurRadius="2"/>
+            </ProgressBar.Effect>
+        </ProgressBar>
+        <Button Content="Proceso Consola" HorizontalAlignment="Left" Margin="240,99,0,0" VerticalAlignment="Top" Width="105" Name="btnConsola" Click="btnConsola_Click"/>
+    </Grid>
+</Window>
