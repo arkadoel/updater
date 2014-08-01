@@ -52,12 +52,14 @@ namespace kfupdater
             GestionarXML ges = new GestionarXML();
             List<Repositorio> repos = ges.ObtenerRepositorios();
             List<string> archivosPackageList = new List<string>();
+            Boolean encontrado = false; //dice si el paquete fue encontrado o no
 
-            for (int i = 0; i < repos.Count(); i++)
+
+            for (int i = 0; i < repos.Count() && encontrado !=true; i++)
             {
                 var repo = repos[i];
                 GestorDescargas gestorDes = new GestorDescargas();
-                Console.SetBufferSize(80, 150);
+                //Console.SetBufferSize(80, 150);
                 archivosPackageList.Add(gestorDes.DescargarFuentes(repo));
                 while (gestorDes.Procesando != false)
                 {
@@ -65,9 +67,9 @@ namespace kfupdater
                 }
 
                 nombrePkg = nombrePkg.ToUpper().Replace(" ", "");
-                Boolean encontrado = false;
+                
 
-                for (int j = 0; j < archivosPackageList.Count() && encontrado != true; j++)
+               for (int j = 0; j < archivosPackageList.Count() && encontrado != true; j++)
                 {
                     string archivo = archivosPackageList[j];
                     GestionarXML g = new GestionarXML();
@@ -77,12 +79,16 @@ namespace kfupdater
                                     where u.PackageName.ToUpper().Replace(" ", "").Contains(nombrePkg)
                                     select u;
 
-                    if (resultado != null)
+                    if (resultado != null && resultado.Count()>0)
                     {
                         //proceder a descargar
-                        Console.WriteLine("Paquete encontrado se procede a descargarlo");
+                        Console.Write("Paquete encontrado se procede a descargarlo");
 
                         gestorDes.DescargarPaquete(repo.URL, resultado.First());
+                        while (gestorDes.Procesando != false)
+                        {
+                            //esperar
+                        }
                         encontrado = true;
                     }
                 }

@@ -3,6 +3,6 @@
 <conf>
   <repos>
     <repo name="Primer repositorio" url="http://localhost/repository" />
-  <repo name="Segundo repositorio" url="http://localhost/repository" />
+  <repo name="Segundo repositorio" url="http://localhost/repon" />
   </repos>
 </conf> 

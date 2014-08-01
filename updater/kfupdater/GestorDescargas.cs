@@ -38,8 +38,13 @@ namespace kfupdater
 
         void w_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
+            Console.ForegroundColor = original;            
+            Console.SetCursorPosition(0, Console.CursorTop +1);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("[100% OK] ");
             Console.ForegroundColor = original;
-            Console.WriteLine("\r\nDescarga terminada");
+            Console.Write("Descargadas fuentes: " + Repo.RepoName + "");
+            Console.WriteLine("");
             Procesando = false;
         }
 
@@ -54,12 +59,28 @@ namespace kfupdater
         public void EscribirProgresoConsola(int porcentaje, string mensaje)
         {
             linea++;
-            if (linea >100)
+            if (linea >200)
             {
                 linea = 0;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("\r\n[" + porcentaje.ToString() + "%]");
+                Console.Write("\r\n[" + porcentaje.ToString() + "%: ");
+
                 Console.ForegroundColor = original;
+                ConsoleColor back = Console.BackgroundColor;
+
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                int parte = (int)(porcentaje / 10);
+                int i = 0;
+
+                for (i = 0; i <=parte ; i++)
+                {
+                    Console.Write(" ");
+                }
+                Console.BackgroundColor = back;
+                for (int j = i; j < 10; j++)
+                {
+                    Console.Write(" ");
+                }
+                Console.Write("]");
                 Console.Write(mensaje);
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
             }
@@ -71,6 +92,8 @@ namespace kfupdater
             string destinyFile = Program.DIR_TMP + @"\" + pkg.FileName;
             string fileToDownload = urlServidor + "/" + pkg.FileName;
 
+            Procesando = true;
+
             w.DownloadFileAsync(new Uri(fileToDownload, UriKind.Absolute), destinyFile);
             w.DownloadProgressChanged += (sender, e) =>
             {
@@ -81,7 +104,12 @@ namespace kfupdater
             w.DownloadFileCompleted += (sender, e) =>
             {
                 Console.ForegroundColor = original;
-                Console.WriteLine("\r\nDescarga terminada");
+                Console.SetCursorPosition(0, Console.CursorTop + 1);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("[100% OK] ");
+                Console.ForegroundColor = original;
+                Console.Write("Descargado paquete: " + pkg.PackageName + "");
+                Console.WriteLine("");
                 Procesando = false;
             };
         }
