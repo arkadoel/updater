@@ -86,7 +86,7 @@ namespace kfupdater
             }
         }
 
-        public void DescargarPaquete(string urlServidor, Paquete pkg)
+        public string DescargarPaquete(string urlServidor, Paquete pkg)
         {
             WebClient w = new WebClient();
             string destinyFile = Program.DIR_TMP + @"\" + pkg.FileName;
@@ -112,6 +112,8 @@ namespace kfupdater
                 Console.WriteLine("");
                 Procesando = false;
             };
+
+            return destinyFile;
         }
 
         public class ConsoleSpinner

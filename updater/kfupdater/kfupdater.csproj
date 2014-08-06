@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\..\..\..\Desktop\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +46,7 @@
   <ItemGroup>
     <Compile Include="GestionarXML.cs" />
     <Compile Include="GestorDescargas.cs" />
+    <Compile Include="GestorZip.cs" />
     <Compile Include="instalar.cs" />
     <Compile Include="Paquete.cs" />
     <Compile Include="Program.cs" />

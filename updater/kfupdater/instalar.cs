@@ -84,12 +84,26 @@ namespace kfupdater
                         //proceder a descargar
                         Console.Write("Paquete encontrado se procede a descargarlo");
 
-                        gestorDes.DescargarPaquete(repo.URL, resultado.First());
+                        string pkgDescargado= gestorDes.DescargarPaquete(repo.URL, resultado.First());
                         while (gestorDes.Procesando != false)
                         {
                             //esperar
                         }
                         encontrado = true;
+
+                        //descomprimir el archivo
+                        
+                        string directorio = GestorZip.decompressFile(pkgDescargado);
+
+                        List<string> procesos= GestionarXML.getInstallProcess(directorio + @"\info.xml");
+                        foreach (var proceso in procesos)
+                        {
+                            System.Diagnostics.Process pexe = new System.Diagnostics.Process();
+                            pexe.StartInfo.WorkingDirectory = directorio + @"\installer";
+                            pexe.StartInfo.FileName = (directorio + @"\" + procesos.First());
+                            pexe.Start();
+                        }
+
                     }
                 }
             }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<info>
+  <product name="Calculadora" version="1.0" support="http://mialejandria.es" />
+  <dependencies>
+    <product name="jor" version="2.0" />
+  </dependencies>
+  <install-process>
+    <execute
+      name="Primer proceso" 
+      path="installer\pre.cmd" 
+      descrip="Instalando primer elemento" >      
+    </execute>
+  </install-process>
+  <uninstall-process>
+    <execute name="Iniciando proceso de desinstalacion" path="installer\uninstall.cmd" descrip="jor" />
+  </uninstall-process>
+</info>

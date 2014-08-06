@@ -92,5 +92,22 @@ namespace kfupdater
             return paquetes;
         }
 
+        public static List<string> getInstallProcess(string path)
+        {
+            XDocument doc = XDocument.Load(path);
+            List<string> installers = new List<string>();
+            var elementos = from u in doc.Elements().First().Elements("install-process").Elements()
+                            select u;
+            if (elementos != null)
+            {
+                foreach (var inst in elementos)
+                {
+                    installers.Add( inst.Attribute("path").Value.ToString());
+                }
+
+            }
+            return installers;
+        }
+
     }
 }
